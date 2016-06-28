@@ -131,9 +131,9 @@ Login Succeeded
 
 You can now interact with your own private registry. Congrats. 
 ``` bash
-$ docker pull hello-world # grab some lightweight image
-$ docker tag hello-world <YOUR HOST>/hw 
-$ docker push <YOUR HOST>/hw
+$ docker pull hello-world  # grab some lightweight image !
+$ docker tag hello-world <YOUR HOST>/hw # tag it !
+$ docker push <YOUR HOST>/hw # push it !
 ```
 You should now be able to pull this image from another logged-in docker host. 
 
