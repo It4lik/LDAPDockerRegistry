@@ -33,8 +33,7 @@ $ cd LDAPDockerRegistry
 $ vi ./env/ldap.env
 ```
 
-* Edit Nginx configuration
-This section contains informations about the LDAP connection
+* Edit Nginx configuration. <return>Thie following section contains informations about the LDAP connection :
 
 ``` bash
 	ldap_server LDAP1 {
@@ -50,7 +49,7 @@ This section contains informations about the LDAP connection
 	}
 ```
 
-The next two sections also need a few changes (Server Name & .crt + .key path)
+The next two sections also need a few changes (Server Name & .crt + .key path) :
 
 ``` bash
 	server {
