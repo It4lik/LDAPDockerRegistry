@@ -38,7 +38,7 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 1. Move your .crt and .key files in certs directory :  
 	``` bash  
 	mv path-to-your.crt path-to-your.key ./nginx/certs  
-	```  
+	```
 
 4. Edit Nginx configuration :
 	``` bash
