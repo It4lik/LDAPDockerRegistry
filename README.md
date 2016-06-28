@@ -5,7 +5,7 @@ Want to set up a lab to get a secure Docker Registry ? With encryption ? And aut
 This repo contains a DockerCompose file that will set up such an environment for you. 
 
 Authentication is done thanks to a Slapd container.  
-Proxy is provided by Nginx.
+Proxy is provided by Nginx.  
 And the official Registry image (v2) is used.
 
 ## Prerequisites
@@ -33,7 +33,7 @@ $ cd LDAPDockerRegistry
 $ vi ./env/ldap.env
 ```
 
-* Edit Nginx configuration. 
+* Edit Nginx configuration.  
 The following section contains informations about the LDAP connection :
 
 ``` bash
@@ -100,19 +100,24 @@ docker-compose up
 
 * Add user in your LDAP server. The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.
 To do this, multiple options : 
-	- LDAP utilities (go search for them with your favorite packet manager) and do a ldapadd
-	- Some UI. You can quickly setup one with the following (edit the variables to suit to your needs) : 
+	- Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
+	- Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
 ``` bash
-$ docker run -p 80:80 -p 443:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
-# And then, go check it with your browser at port 80 or 443.
+$ docker run -p <HOST PORT>:80 -p <HOST PORT>:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
+# And then, go check it with your browser using the ports you defined
 ```
----
+
 ## A word about self-signed certificate 
-Docker doesn't like self-signed certificate. Really. <return> If you choose to use a self-signed certificate, you're probably got some troubles when trying to connect to your private registry. You need to add the --insecure-registry to your DOCKER_OPTS. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> For some others (like CentOS 7), you can edit the Docker service definition (search for it with a find command or something). Edit the ExecStart line : 
+Docker doesn't like self-signed certificate. Really.  
+If you choose to use a self-signed certificate, you're probably got some trouble when trying to connect to your private registry.
+
+You need to add the --insecure-registry to your DOCKER_OPTS. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
+
+For some others (like CentOS 7), you can edit the Docker service definition (search for it with a find command or something). Edit the ExecStart line : 
 ``` bash
 ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
 ```
----
+
 # Testing
 Go ahead and log into your brand new and beautiful Docker registry with his magnificent Nginx + LDAP backend. 
 ``` bash
@@ -132,3 +137,5 @@ You should now be able to pull this image from another logged-in docker host.
 You can also grab UIs to explore your registry, like [this one](https://hub.docker.com/r/atcol/docker-registry-ui/) or [this one](https://hub.docker.com/r/hyper/docker-registry-web/). 
 
 Happy pulls and pushes :)
+
+---
