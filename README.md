@@ -50,7 +50,7 @@ The following section contains informations about the LDAP connection :
 	}
 ```
 
-  The next two sections also need a few changes (Server Name & .crt + .key path) :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The next two sections also need a few changes (Server Name & .crt + .key path) :
 
 ``` bash
 	server {
