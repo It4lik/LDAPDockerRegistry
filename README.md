@@ -102,18 +102,18 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 	# This may take a while, be patient, go grab some coffee.  
 	```
 
-6. Start the containers :  
-This assumes you got docker-compose in your $PATH. Once more, execute this command from the LDAPDockerRegistry directory.  
+6. Start the containers. This assumes you got docker-compose in your $PATH.  
+Once more, execute this command from the LDAPDockerRegistry directory.  
 	``` bash  
-	docker-compose up  
+	$ docker-compose up  
 	```
 
-7. Add your test user to the LDAP server :  
+7. Add a test user to the LDAP server.  
 The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.  
 
-	To do this, multiple options : 
-		* Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
-		* Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
+	To do this, multiple options :
+	  * Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
+	  * Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
 	``` bash
 	$ docker run -p <HOST PORT>:80 -p <HOST PORT>:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
 	# And then, go check it with your browser using the ports you defined
