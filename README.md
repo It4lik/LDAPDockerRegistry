@@ -50,7 +50,7 @@ The following section contains informations about the LDAP connection :
 	}
 ```
 
-The next two sections also need a few changes (Server Name & .crt + .key path) :
+  The next two sections also need a few changes (Server Name & .crt + .key path) :
 
 ``` bash
 	server {
@@ -118,7 +118,7 @@ For some others (like CentOS 7), you can edit the Docker service definition (sea
 ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
 ```
 
-# Testing
+## Testing
 Go ahead and log into your brand new and beautiful Docker registry with his magnificent Nginx + LDAP backend. 
 ``` bash
 $ docker login <NGINX HOST>  # Do not provide any email address. And try fake credentials, just to be sure...
