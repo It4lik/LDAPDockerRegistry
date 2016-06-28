@@ -12,15 +12,15 @@ Nginx is going to be your endpoint, who can authenticate people against a LDAP S
 
 ## Prerequisites
 
-- A docker host with docker-engine > 1.8 and the docker-compose binary.
+* A docker host with docker-engine > 1.8 and the docker-compose binary.
 Go [here](https://docs.docker.com/compose/install/) to get Compose if you didn't already.
 
-- A SSL key/cert pair. You can easily get a self-signed certificate (and key) with the following : 
+* A SSL key/cert pair. You can easily get a self-signed certificate (and key) with the following : 
 ```
 $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out web.crt
 ```
 
-- Some love.
+* Some love.
 
 ## Getting Started
 
@@ -120,16 +120,6 @@ $ docker run -p <HOST PORT>:80 -p <HOST PORT>:443 -e LDAP_HOST=<LOCAL LDAP IP AD
 ```  
 **NB :** The *\<LOCAL LDAP IP ADDRESS\>* is the private address of your LDAP container. You can [Docker inspect](https://docs.docker.com/engine/reference/commandline/inspect/) it to know it.
 
-## A word about self-signed certificate 
-Docker doesn't like self-signed certificate. Really.  
-If you choose to use a self-signed certificate, you're probably got some trouble when trying to connect to your private registry.
-
-You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
-
-For some others (like CentOS 7), you can edit the Docker service definition (search for it with a *find* command or something). Edit the ExecStart line : 
-``` bash
-ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
-```
 
 ## Testing
 Go ahead and log into your brand new and beautiful Docker registry with his magnificent Nginx + LDAP backend. 
@@ -152,3 +142,32 @@ You can also grab UIs to explore your registry, like [this one](https://hub.dock
 Happy pulls and pushes :)
 
 ---
+
+
+
+# A word about self-signed certificate 
+Docker doesn't like self-signed certificate. Really.  
+
+* If you choose to use a self-signed certificate, you're probably got some trouble when trying to connect to your private registry.
+
+You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
+
+For some others (like CentOS 7), you can edit the Docker service definition (search for it with a *find* command or something). Edit the ExecStart line : 
+``` bash
+ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
+```
+---
+* If you get the following when trying to login : 
+```
+Error response from daemon: invalid registry endpoint https://<IP>/v0/: unable to ping registry endpoint https://<IP>/v0/
+v2 ping attempt failed with error: Get https://<IP>/v2/: x509: cannot validate certificate for IP because it doesn't contain any IP SANs
+ v1 ping attempt failed with error: Get https://<IP>/v1/_ping: x509: cannot validate certificate for IP because it doesn't contain any IP SANs. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry 192.168.56.103` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /etc/docker/certs.d/<IP>/ca.crt
+```
+
+You can solve this error doing one of the things that are recommended by the error output. Go grab the **.crt file** in your Docker Host and put in the /etc/docker/certs.d/IP/ repository. 
+That's can be done with the following : 
+```
+mkdir -p /etc/docker/certs.d/<IP>/ # replace with the IP you're trying to connect to
+scp IP:/~/LDAPDockerRegistry/nginx/certs/your.crt /etc/docker/certs.d/<IP>/ca.crt
+---
+```
