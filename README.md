@@ -102,7 +102,7 @@ Issue this from the LDAPDockerRegistry directory.
 	$ cd nginx && docker build --tag=ldap_nginx .
 	# This may take a while, be patient, go grab some coffee.
 	```
-<br/>
+<br/><br/>
 6. Start the containers :  
 This assumes you got docker-compose in your $PATH. Once more, execute this command from the LDAPDockerRegistry directory.
 	``` bash
