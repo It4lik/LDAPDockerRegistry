@@ -99,7 +99,7 @@ The following section contains informations about the LDAP connection :
 ```
 
 * Build your own Nginx container. Issue this from the LDAPDockerRegistry directory.  
-** The dot at the end of the line matters. Don't forget it. **
+**The dot at the end of the line matters. Don't forget it.**
 ``` bash
 $ cd nginx && docker build --tag=ldap_nginx .
 # This may take a while, be patient, go grab some coffee.
