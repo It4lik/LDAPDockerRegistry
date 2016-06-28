@@ -23,7 +23,7 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout web.key -out 
 ## Getting Started
 
 - Clone the repo and cd in it
-``` 
+``` bash
 $ git clone https://github.com/It4lik/LDAPDockerRegistry
 $ cd LDAPDockerRegistry
 ```
@@ -50,6 +50,7 @@ $ vi ./env/ldap.env
 ```
 
 	- The next two sections also need a few things (Server Name & .crt + .key path)
+
 ```
 	server {
 		listen 		80;
