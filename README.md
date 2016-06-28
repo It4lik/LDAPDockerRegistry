@@ -150,7 +150,7 @@ Docker doesn't like self-signed certificate. **Really**.
 
 * If you choose to use a self-signed certificate, you're probably got some trouble when trying to connect to your private registry.
 
-	You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
+	You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of Linux distros. <return> 
 
 	For some others (like CentOS 7), you can edit the Docker service definition (search for it with a *find* command or something). Edit the ExecStart line : 
 	``` bash
