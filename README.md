@@ -48,7 +48,7 @@ $ vi ./env/ldap.env
 		satisfty all;
 	}
 ```
-
+* 
 	* The next two sections also need a few things (Server Name & .crt + .key path)
 
 ``` bash
