@@ -4,8 +4,8 @@ Want to set up a lab to get a secure Docker Registry ? With encryption ? And aut
 
 This repo contains a DockerCompose file that will set up such an environment for you. 
 
-Authentication is done thanks to a Slapd container. <return>
-Proxy is provided by Nginx. <return>
+Authentication is done thanks to a Slapd container.
+Proxy is provided by Nginx.
 And the official Registry image (v2) is used.
 
 ## Prerequisites
@@ -33,7 +33,8 @@ $ cd LDAPDockerRegistry
 $ vi ./env/ldap.env
 ```
 
-* Edit Nginx configuration. <return>Thie following section contains informations about the LDAP connection :
+* Edit Nginx configuration. 
+The following section contains informations about the LDAP connection :
 
 ``` bash
 	ldap_server LDAP1 {
