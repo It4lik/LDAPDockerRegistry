@@ -1,7 +1,5 @@
 FROM centos:7
 
-MAINTAINER Nick Halm <nhalm@hfmi.com>
-
 ENV NGINX_VERSION release-1.9.5
 
 RUN yum update -y \
