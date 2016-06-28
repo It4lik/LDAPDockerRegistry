@@ -39,7 +39,7 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 	``` bash  
 	mv path-to-your.crt path-to-your.key ./nginx/certs  
 	```  
-<br/>
+
 4. Edit Nginx configuration :
 	``` bash
 	$ vi ./nginx/config/nginx.conf
@@ -94,7 +94,7 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 			}
 
 	```
-<br/>
+<br/><br/>
 5. Build your own Nginx container :  
 Issue this from the LDAPDockerRegistry directory.  
 	**The dot at the end of the line matters. Don't forget it.**
@@ -108,7 +108,7 @@ This assumes you got docker-compose in your $PATH. Once more, execute this comma
 	``` bash
 	docker-compose up
 	```
-<br/>
+<br/><br/>
 7. Add your test user to the LDAP server :  
 The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.  
 
