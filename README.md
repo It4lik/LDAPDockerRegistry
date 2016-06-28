@@ -24,7 +24,7 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 
 ## Getting Started
 
-1. Clone the repo and cd in it
+1. Clone the repo and cd in it  
 	``` bash
 	$ git clone https://github.com/It4lik/LDAPDockerRegistry
 	$ cd LDAPDockerRegistry
