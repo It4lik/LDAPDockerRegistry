@@ -29,11 +29,11 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 $ git clone https://github.com/It4lik/LDAPDockerRegistry
 $ cd LDAPDockerRegistry
 ```
-2. Edit the environment file, which contains informations about the LDAP server. Make it suit to your needs.
+1. Edit the environment file, which contains informations about the LDAP server. Make it suit to your needs.
 ``` bash
 $ vi ./env/ldap.env
 ```
-3. Move your .crt and .key files in certs directory
+1. Move your .crt and .key files in certs directory
 ``` bash
 mv path-to-your.crt path-to-your.key ./nginx/certs
 ```
@@ -163,5 +163,5 @@ That's can be done with the following :
 ```
 mkdir -p /etc/docker/certs.d/<IP>/ # replace with the IP you're trying to connect to
 scp IP:/~/LDAPDockerRegistry/nginx/certs/your.crt /etc/docker/certs.d/<IP>/ca.crt
----
 ```
+---
