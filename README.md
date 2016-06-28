@@ -22,20 +22,20 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout web.key -out 
 
 ## Getting Started
 
-- Clone the repo and cd in it
+* Clone the repo and cd in it
 ``` bash
 $ git clone https://github.com/It4lik/LDAPDockerRegistry
 $ cd LDAPDockerRegistry
 ```
 
-- Edit the environment file, which contains informations about the LDAP server. Make it suit to your needs.
-```
+* Edit the environment file, which contains informations about the LDAP server. Make it suit to your needs.
+``` bash
 $ vi ./env/ldap.env
 ```
 
-- Edit Nginx configuration
-	- This section contains informations about the LDAP connection
-```
+* Edit Nginx configuration
+ * This section contains informations about the LDAP connection
+``` bash
 	ldap_server LDAP1 {
 		url "ldap://<LDAP SERVER>/DC=your,DC=domain,DC=com?cn?sub?(objectClass=person)";
 		binddn "<LDAP USER NAME";
@@ -49,9 +49,9 @@ $ vi ./env/ldap.env
 	}
 ```
 
-	- The next two sections also need a few things (Server Name & .crt + .key path)
+ * The next two sections also need a few things (Server Name & .crt + .key path)
 
-```
+``` bash
 	server {
 		listen 		80;
 		server_name	<SERVER NAME>;
@@ -86,42 +86,42 @@ $ vi ./env/ldap.env
 
 ```
 
-- Build your own Nginx container. Do this from the LDAPDockerRegistry directory
-```
+* Build your own Nginx container. Do this from the LDAPDockerRegistry directory
+``` bash
 # the dot at the end of the line matters. Don't forget it.
 $ cd nginx && docker build --tag=ldap_nginx .
 ```
 
-- Start the containers. This assumes you got docker-compose in your $PATH. Once more, Execute this command from inside the LDAPDockerRegistry directory
-```
+* Start the containers. This assumes you got docker-compose in your $PATH. Once more, Execute this command from inside the LDAPDockerRegistry directory
+``` bash
 docker-compose up
 ```
 
-- Add user in your LDAP server. The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.
+* Add user in your LDAP server. The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.
 To do this, multiple options : 
 	- LDAP utilities (go search for them with your favorite packet manager) and do a ldapadd
 	- Some UI. You can quickly setup one with the following (edit the variables to suit to your needs) : 
-```
+``` bash
 $ docker run -p 80:80 -p 443:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
 # And then, go check it with your browser at port 80 or 443.
 ```
 
 ## A word about self-signed certificate 
 Docker doesn't like self-signed certificate. Really. <return> If you choose to use a self-signed certificate, you're probably got some troubles when trying to connect to your private registry. You need to add the --insecure-registry to your DOCKER_OPTS. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> For some others (like CentOS 7), you can edit the Docker service definition (search for it with a find command or something). Edit the ExecStart line : 
-```
+``` bash
 ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
 ```
 
 # Testing
 Go ahead and log into your brand new and beautiful Docker registry with his magnificent Nginx + LDAP backend. 
-```
+``` bash
 $ docker login <NGINX HOST>  # Do not provide any email address. And try fake credentials, just to be sure...
 ...
 Login Succeeded
 ```
 
 You can now push/pull images to your own private registry. Congrats. 
-```
+``` bash
 $ docker pull hello-world # grab some lightweight image
 $ docker tag hello-world <YOUR HOST>/hw 
 $ docker push <YOUR HOST>/hw
