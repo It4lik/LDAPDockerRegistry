@@ -34,7 +34,8 @@ $ vi ./env/ldap.env
 ```
 
 * Edit Nginx configuration
-	* This section contains informations about the LDAP connection
+This section contains informations about the LDAP connection
+
 ``` bash
 	ldap_server LDAP1 {
 		url "ldap://<LDAP SERVER>/DC=your,DC=domain,DC=com?cn?sub?(objectClass=person)";
@@ -48,8 +49,8 @@ $ vi ./env/ldap.env
 		satisfty all;
 	}
 ```
-* 
-	* The next two sections also need a few things (Server Name & .crt + .key path)
+
+The next two sections also need a few changes (Server Name & .crt + .key path)
 
 ``` bash
 	server {
