@@ -137,7 +137,7 @@ $ docker push <YOUR HOST>/hw # push it !
 ```
 You should now be able to pull this image from another logged-in docker host. 
 
-You can also grab UIs to explore your registry, like [this one](https://hub.docker.com/r/atcol/docker-registry-ui/) or [this one](https://hub.docker.com/r/hyper/docker-registry-web/). 
+You can also setup UIs to explore your registry, like [this one](https://hub.docker.com/r/atcol/docker-registry-ui/) or [this one](https://hub.docker.com/r/hyper/docker-registry-web/). 
 
 Happy pulls and pushes :)
 
