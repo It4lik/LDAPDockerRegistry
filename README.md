@@ -115,10 +115,10 @@ To do this, multiple options :
 	- Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
 	- Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
 ``` bash
-# The <LOCAL LDAP IP ADDRESS> is the private address of your LDAP container. You can [Docker inspect](https://docs.docker.com/engine/reference/commandline/inspect/) it to know it.
 $ docker run -p <HOST PORT>:80 -p <HOST PORT>:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
 # And then, go check it with your browser using the ports you defined
-```
+```  
+**NB :** The <LOCAL LDAP IP ADDRESS> is the private address of your LDAP container. You can [Docker inspect](https://docs.docker.com/engine/reference/commandline/inspect/) it to know it.
 
 ## A word about self-signed certificate 
 Docker doesn't like self-signed certificate. Really.  
