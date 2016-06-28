@@ -1,0 +1,25 @@
+nginx:
+  image: "ldap_nginx"
+  ports: 
+    - 443:443
+    - 80:80
+  links:
+    - registry:registry
+    - ldap:ldap
+  volumes:
+    - ./nginx/certs/:/etc/ssl:ro
+    - ./nginx/config/:/etc/nginx/:ro
+  restart: always
+
+registry:
+  image: registry:2
+  ports:
+    - 127.0.0.1:5000:5000
+  restart: always
+
+ldap:
+  image: aexoti/slapd
+  ports: 
+    - 127.0.0.1:389:389
+  env_file: 
+    - ./env/ldap.env

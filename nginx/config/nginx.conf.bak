@@ -1,0 +1,87 @@
+worker_processes 1;
+ 
+events {
+    worker_connections 1024;
+}
+    
+http {
+#	upstream docker-registry {
+#		server registry:5000;
+#	}
+
+	auth_ldap_cache_enabled off;
+	auth_ldap_cache_expiration_time 1000;
+	auth_ldap_cache_size 1000;
+
+	ldap_server LDAP1 {
+		url "ldaps://10.10.1.5/DC=ad,DC=hfmi,DC=org?sAMAccountName?sub?(objectClass=person)";
+		binddn "nhalm@ad.hfmi.org";
+		binddn_passwd "!!WAtson15";
+		#group_attribute member;
+		# search for full DN in member object
+		#group_attribute_is_dn on;
+		bind_timeout 5s;
+		request_timeout 5s;
+		satisfy any;
+		group_attribute member;
+		group_attribute_is_dn on;
+		satisfty any;
+	}
+
+	server {
+		listen 		80;
+		server_name	mnedlxdocker.ad.hfmi.org;
+		auth_ldap "Please enter your ldap username";
+		auth_ldap_servers LDAP1;
+
+		root html;
+		index index.html index.htm;
+	}
+
+	server {
+		listen          443;
+
+		error_log	/var/log/nginx/error.log debug;
+		access_log	/var/log/nginx/access.log;
+
+		ssl on;
+		ssl_certificate 	/etc/ssl/domain.crt;
+		ssl_certificate_key 	/etc/ssl/domain.key;
+
+		# disable any limits to avoid HTTP 413 for large image uploads
+		client_max_body_size	0;
+	
+		# required to avoid HTTP 411: see Issue #1486 (https://github.com/docker/docker/issues/1486)
+		chunked_transfer_encoding 	on;
+
+		
+		add_header 'Docker-Distribution-Api-Version' 'registry/2.0' always;
+
+		location / {
+			auth_ldap "Please enter your ldap username";
+			auth_ldap_servers LDAP1;
+
+			root html;
+			index index.html index.html;
+		}
+
+#		location /v2/ {
+#			# Do not allow connections from docker 1.5 and earlier
+#			# docker pre-1.6.0 did not properly set the user agent on ping, catch "Go *" user agents
+#			#if (\$http_user_agent ~ "^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*\$" ) {
+#			#	return 404;
+#			#}
+#
+#			auth_ldap "Please enter your ldap username";
+#			auth_ldap_servers LDAP1;
+#
+#
+#			proxy_pass                          http://docker-registry;
+#			proxy_set_header  Host              \$http_host;   # required for docker client's sake
+#			proxy_set_header  X-Real-IP         \$remote_addr; # pass on real client's IP
+#			proxy_set_header  X-Forwarded-For   \$proxy_add_x_forwarded_for;
+#			proxy_set_header  X-Forwarded-Proto \$scheme;
+#			proxy_read_timeout                  900;
+#		}
+	}
+}
