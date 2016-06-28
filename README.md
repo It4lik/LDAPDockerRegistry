@@ -5,7 +5,9 @@ Want to set up a lab to get a secure Docker Registry ? With encryption ? And aut
 This repo contains a DockerCompose file that will set up such an environment for you. 
 
 Authentication is done thanks to a Slapd container.
+
 Proxy is provided by Nginx.
+
 And the official Registry image (v2) is used.
 
 ## Prerequisites
@@ -106,13 +108,13 @@ To do this, multiple options :
 $ docker run -p 80:80 -p 443:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
 # And then, go check it with your browser at port 80 or 443.
 ```
-
+---
 ## A word about self-signed certificate 
 Docker doesn't like self-signed certificate. Really. <return> If you choose to use a self-signed certificate, you're probably got some troubles when trying to connect to your private registry. You need to add the --insecure-registry to your DOCKER_OPTS. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> For some others (like CentOS 7), you can edit the Docker service definition (search for it with a find command or something). Edit the ExecStart line : 
 ``` bash
 ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
 ```
-
+---
 # Testing
 Go ahead and log into your brand new and beautiful Docker registry with his magnificent Nginx + LDAP backend. 
 ``` bash
