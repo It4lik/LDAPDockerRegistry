@@ -17,7 +17,7 @@ Go [here](https://docs.docker.com/compose/install/) to get Compose if you didn't
 
 - A SSL key/cert pair. You can easily get a self-signed certificate (and key) with the following : 
 ```
-$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout web.key -out web.crt
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out web.crt
 ```
 
 - Some love.
@@ -35,14 +35,23 @@ $ cd LDAPDockerRegistry
 $ vi ./env/ldap.env
 ```
 
+* Move your .crt and .key files in certs directory
+``` bash
+mv path-to-your.crt path-to-your.key ./nginx/certs
+```
+
 * Edit Nginx configuration.  
-The following section contains informations about the LDAP connection :
+``` bash
+$ vi ./nginx/config/nginx.conf
+```
+
+The following section contains informations about the LDAP connection :  
 
 ``` bash
 	ldap_server LDAP1 {
-		url "ldap://<LDAP SERVER>/DC=your,DC=domain,DC=com?cn?sub?(objectClass=person)";
-		binddn "<LDAP USER NAME";
-		binddn_passwd "<LDAP USER PASSWORD>";
+		url "ldap://<LDAP SERVER>/dc=your,dc=domain,dc=com?cn?sub?(objectClass=person)";
+		binddn "cn=admin,dc=your,dc=domain,dc=com";
+		binddn_passwd "<LDAP ADMIN PASSWORD>"; # This is the password you provided in the .env file
 		bind_timeout 5s;
 		request_timeout 5s;
 		group_attribute member;
@@ -89,18 +98,19 @@ The following section contains informations about the LDAP connection :
 
 ```
 
-* Build your own Nginx container. Do this from the LDAPDockerRegistry directory
+* Build your own Nginx container. Issue this from the LDAPDockerRegistry directory.
 ``` bash
 # the dot at the end of the line matters. Don't forget it.
 $ cd nginx && docker build --tag=ldap_nginx .
+# This may take a while, be patient, go grab some coffee.
 ```
 
-* Start the containers. This assumes you got docker-compose in your $PATH. Once more, Execute this command from inside the LDAPDockerRegistry directory
+* Start the containers. This assumes you got docker-compose in your $PATH. Once more, execute this command from inside the LDAPDockerRegistry directory.
 ``` bash
 docker-compose up
 ```
 
-* Add user in your LDAP server. The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.
+* Add your test user to the LDAP server. The LDAP object your create **MUST be of the 'Person' type** if you haven't edit the LDAP connection string in the Nginx configuration.  
 To do this, multiple options : 
 	- Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
 	- Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
