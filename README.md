@@ -28,13 +28,13 @@ $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout web.key -out 
 	``` bash  
 	$ git clone https://github.com/It4lik/LDAPDockerRegistry  
 	$ cd LDAPDockerRegistry  
-	```  
-<br/>
+	```
+
 1. Edit the environment file, which contains informations about the LDAP server. Make it suit to your needs.  
 	``` bash  
 	$ vi ./env/ldap.env  
-	```  
-<br/>
+	```
+
 1. Move your .crt and .key files in certs directory :  
 	``` bash  
 	mv path-to-your.crt path-to-your.key ./nginx/certs  
