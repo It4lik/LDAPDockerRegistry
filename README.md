@@ -113,7 +113,7 @@ The LDAP object your create **MUST be of the 'Person' type** if you haven't edit
 
 	To do this, multiple options :
 	  * Get the **LDAP utilities** (go search for them with your favorite packet manager) and do a ldapadd
-	  * Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) : 
+	  * Some **WebUI**. You can quickly setup one with the following (edit the variables to suit to your needs) :  
 	``` bash
 	$ docker run -p <HOST PORT>:80 -p <HOST PORT>:443 -e LDAP_HOST=<LOCAL LDAP IP ADDRESS> -e LDAP_BASE_DN=dc=your,dc=domain,dc=com -e LDAP_LOGIN_DN=cn=admin,dc=your,dc=domain,dc=com -d windfisch/phpldapadmin
 	# And then, go check it with your browser using the ports you defined
@@ -150,24 +150,24 @@ Docker doesn't like self-signed certificate. **Really**.
 
 * If you choose to use a self-signed certificate, you're probably got some trouble when trying to connect to your private registry.
 
-You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
+	You need to add the *--insecure-registry* to your *DOCKER_OPTS*. More on that [here](https://docs.docker.com/registry/insecure/) for most of the Linux distros. <return> 
 
-For some others (like CentOS 7), you can edit the Docker service definition (search for it with a *find* command or something). Edit the ExecStart line : 
-``` bash
-ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
-```
+	For some others (like CentOS 7), you can edit the Docker service definition (search for it with a *find* command or something). Edit the ExecStart line : 
+	``` bash
+	ExecStart=/usr/bin/docker daemon --insecure-registry <IP ADDRESS OF YOUR NGINX PROXY> -H fd://
+	```
 ---
 * If you get the following when trying to login : 
-```
-Error response from daemon: invalid registry endpoint https://<IP>/v0/: unable to ping registry endpoint https://<IP>/v0/
-v2 ping attempt failed with error: Get https://<IP>/v2/: x509: cannot validate certificate for IP because it doesn't contain any IP SANs
- v1 ping attempt failed with error: Get https://<IP>/v1/_ping: x509: cannot validate certificate for IP because it doesn't contain any IP SANs. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry 192.168.56.103` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /etc/docker/certs.d/<IP>/ca.crt
-```
+	```
+	Error response from daemon: invalid registry endpoint https://<IP>/v0/: unable to ping registry endpoint https://<IP>/v0/
+	v2 ping attempt failed with error: Get https://<IP>/v2/: x509: cannot validate certificate for IP because it doesn't contain any IP SANs
+	 v1 ping attempt failed with error: Get https://<IP>/v1/_ping: x509: cannot validate certificate for IP because it doesn't contain any IP SANs. If this private registry supports only HTTP or HTTPS with an unknown CA certificate, please add `--insecure-registry 192.168.56.103` to the daemon's arguments. In the case of HTTPS, if you have access to the registry's CA certificate, no need for the flag; simply place the CA certificate at /etc/docker/certs.d/<IP>/ca.crt
+	```
 
-You can solve this error doing one of the things that are recommended by the error output. Go grab the **.crt file** in your Docker Host and put in the /etc/docker/certs.d/IP/ repository. 
-That's can be done with the following : 
-```
-mkdir -p /etc/docker/certs.d/<IP>/ # replace with the IP you're trying to connect to
-scp IP:/~/LDAPDockerRegistry/nginx/certs/your.crt /etc/docker/certs.d/<IP>/ca.crt
-```
+	You can solve this error doing one of the things that are recommended by the error output. Go grab the **.crt file** in your Docker Host and put in the /etc/docker/certs.d/IP/ repository. 
+	That's can be done with the following : 
+	```
+	mkdir -p /etc/docker/certs.d/<IP>/ # replace with the IP you're trying to connect to
+	scp IP:/~/LDAPDockerRegistry/nginx/certs/your.crt /etc/docker/certs.d/<IP>/ca.crt
+	```
 ---
